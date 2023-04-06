@@ -8,6 +8,7 @@ left join silver.olist.item_pedido t2 on t1.idPedido = t2.idPedido
 left join silver.olist.produto t3 on t2.idProduto = t3.idProduto
 where t1.dtPedido > '2018-01-01' and t1.dtPedido >= add_months('2018-01-01', -6)
 and t2.idVendedor is not null
+
 ),
 tb_summary as(
 select idVendedor
