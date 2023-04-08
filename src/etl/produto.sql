@@ -1,4 +1,3 @@
--- Databricks notebook source
 with tb_join as(
 select distinct 
          t2.idVendedor
@@ -6,7 +5,7 @@ select distinct
 from silver.olist.pedido t1
 left join silver.olist.item_pedido t2 on t1.idPedido = t2.idPedido
 left join silver.olist.produto t3 on t2.idProduto = t3.idProduto
-where t1.dtPedido > '2018-01-01' and t1.dtPedido >= add_months('2018-01-01', -6)
+where t1.dtPedido > '{date}' and t1.dtPedido >= add_months('{date}', -6)
 and t2.idVendedor is not null
 
 ),
@@ -35,16 +34,7 @@ select idVendedor
 from tb_join
 group by idVendedor
 )
-select '2018-01-01' as dtReference
+select '{date}' as dtReference
+        , NOW() as dtIngestion
         , *
 from tb_summary
-
--- COMMAND ----------
-
-select descCategoria
-from silver.olist.item_pedido t2 
-left join silver.olist.produto t3 on t2.idProduto = t3.idProduto
-and t2.idVendedor is not null
-group by 1
-order by count(idPedido) desc
-limit 15
